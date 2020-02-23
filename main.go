@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path"
 	"text/template"
 )
 
@@ -34,7 +35,7 @@ func main() {
 		"env": os.Getenv,
 	}
 
-	t, err := template.New(flag.Arg(0)).Funcs(funcMap).ParseFiles(flag.Arg(0))
+	t, err := template.New(path.Base(flag.Arg(0))).Funcs(funcMap).ParseFiles(flag.Arg(0))
 	if err != nil {
 		panic(err)
 	}
