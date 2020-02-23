@@ -19,32 +19,28 @@ Currently it simply injects the `env` function into the templates mapped to Go `
 ## Usage
 
 * Add confgen in your Dockerfile
-
-```
-...
-RUN wget https://github.com/fopina/confgen/releases/latest/download/confgen_linux_amd64 -O /usr/local/bin/confgen
-RUN chmod a+x /usr/local/bin/confgen
-...
-```
+  ```
+  ...
+  RUN wget https://github.com/fopina/confgen/releases/latest/download/confgen_linux_amd64 -O /usr/local/bin/confgen
+  RUN chmod a+x /usr/local/bin/confgen
+  ...
+  ```
 
 * Call it from your entrypoint
-
-```
-...
-confgen -o /path/to/used/conf /path/to/template
-...
-```
+  ```
+  ...
+  confgen -o /path/to/used/conf /path/to/template
+  ...
+  ```
 
 * With your [template](https://golang.org/pkg/text/template/) using the `env` function
-
-```
-config_key={{ "MY_CONFIG" | env }};
-```
+  ```
+  config_key={{ "MY_CONFIG" | env }};
+  ```
 
 * Set those env vars when creating the containers
-
-```
-docker run -e MY_CONFIG=wtv ...
-```
+  ```
+  docker run -e MY_CONFIG=wtv ...
+  ```
 
 Check [examples](examples) for actual usage with nginx paired with `envsubst`. And check [Go template](https://golang.org/pkg/text/template/) documentation for full list of logical controls.
