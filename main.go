@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"text/template"
+	"github.com/fopina/confgen/funcmap"
 )
 
 var version string = "DEV"
@@ -31,11 +32,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	funcMap := template.FuncMap{
-		"env": os.Getenv,
-	}
-
-	t, err := template.New(path.Base(flag.Arg(0))).Funcs(funcMap).ParseFiles(flag.Arg(0))
+	t, err := template.New(path.Base(flag.Arg(0))).Funcs(funcmap.FuncMap()).ParseFiles(flag.Arg(0))
 	if err != nil {
 		panic(err)
 	}
