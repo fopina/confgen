@@ -14,7 +14,9 @@ But for a python-less image (such as nginx), adding ~50M of python runtime just 
 Instead of Jinja2 templating, it's [Go templating](https://golang.org/pkg/text/template/).
 Instead of 50M footprint, it's 2M.
 
-Currently it simply injects the `env` function into the templates mapped to Go `os.Getenv`.
+`confgen` simply injects the `env` function into the templates mapped to Go `os.Getenv`.
+
+If you need more functions in your templates and you don't mind having twice the footprint (a bit over 4M instad of 2M), you have the `confgen_sprig` builds which uses [sprig](http://masterminds.github.io/sprig/) funcmap instead, exposing not only the same `env` function but a lot more. Check its [documentation](http://masterminds.github.io/sprig/) for full list.
 
 ## Usage
 
@@ -22,6 +24,8 @@ Currently it simply injects the `env` function into the templates mapped to Go `
   ```
   ...
   RUN wget https://github.com/fopina/confgen/releases/latest/download/confgen_linux_amd64 -O /usr/local/bin/confgen
+  # or with sprig, if you need more template functions than "env"
+  # RUN wget https://github.com/fopina/confgen/releases/latest/download/confgen_sprig_linux_amd64 -O /usr/local/bin/confgen
   RUN chmod a+x /usr/local/bin/confgen
   ...
   ```
