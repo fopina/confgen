@@ -2,7 +2,8 @@ before:
   hooks:
     - go mod tidy
 builds:
-- id: confgen
+- &config_build
+  id: confgen
   env:
   - CGO_ENABLED=0
   goos:
@@ -12,21 +13,12 @@ builds:
   goarch:
     - amd64
     - arm
+    - arm64
   goarm:
-    - 7
-- id: confgen_sprig
+    - '7'
+- <<: *config_build
+  id: confgen_sprig
   binary: confgen_sprig
-  env:
-  - CGO_ENABLED=0
-  goos:
-    - linux
-    - darwin
-    - windows
-  goarch:
-    - amd64
-    - arm
-  goarm:
-    - 7
   flags:
     - -tags=sprig
 archives:
