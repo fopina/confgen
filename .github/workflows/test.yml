@@ -28,5 +28,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: confgen
-          path: dist/*
-          retention: 2
+          path: dist/
+          retention-days: 2
