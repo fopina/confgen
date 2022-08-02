@@ -23,9 +23,12 @@ If you need more functions in your templates and you don't mind having twice the
 * Add confgen in your Dockerfile
   ```
   ...
-  RUN wget https://github.com/fopina/confgen/releases/latest/download/confgen_linux_amd64 -O /usr/local/bin/confgen
+  # multi-platform image so it is simpler than having to fetch the right binary from releases
+  # immutable tags also available, eg fopina/confgen:0.1.6
+  COPY --from=fopina/confgen:latest /confgen /usr/local/bin/confgen
   # or with sprig, if you need more template functions than "env"
-  # RUN wget https://github.com/fopina/confgen/releases/latest/download/confgen_sprig_linux_amd64 -O /usr/local/bin/confgen
+  # immutable tags also available, eg fopina/confgen:0.1.6-sprig
+  # COPY --from=fopina/confgen:sprig /confgen /usr/local/bin/confgen
   RUN chmod a+x /usr/local/bin/confgen
   ...
   ```
