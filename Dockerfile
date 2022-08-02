@@ -1,7 +1,6 @@
-ARG BINARY=confgen
-
 FROM scratch
 
-COPY ${BINARY} /
+ARG BINARY=confgen
+COPY ${BINARY} /confgen
 
 ENTRYPOINT ["/confgen"]
