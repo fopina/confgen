@@ -35,4 +35,5 @@ changelog:
 
 dockers:
   - image_templates:
-    - user/repo
+    - fopina/{{.ProjectName}}:{{ .Tag }}
+    - fopina/{{.ProjectName}}:latest
