@@ -34,6 +34,70 @@ changelog:
     - '^test:'
 
 dockers:
-  - image_templates:
-    - fopina/{{.ProjectName}}:{{ .Tag }}
-    - fopina/{{.ProjectName}}:latest
+  - &image-def
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Tag }}-amd64
+    use: buildx
+    ids:
+      - confgen
+    goos: linux
+    goarch: amd64
+    build_flag_templates:
+      - --platform=linux/amd64
+  - <<: *image-def
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Tag }}-arm64
+    goarch: arm64
+    build_flag_templates:
+      - --platform=linux/arm64/v8
+  - <<: *image-def
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Tag }}-armv7
+    goarch: arm
+    goarm: '7'
+    build_flag_templates:
+      - --platform=linux/arm64/v8
+
+  - &image-def-sprig
+    <<: *image-def
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Tag }}-sprig-amd64
+    ids:
+      - confgen_sprig
+    goarch: amd64
+    build_flag_templates:
+      - --platform=linux/amd64
+      - --build-arg=BINARY=confgen_sprig
+  - <<: *image-def-sprig
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Tag }}-sprig-arm64
+    goarch: arm64
+    build_flag_templates:
+      - --platform=linux/arm64/v8
+      - --build-arg=BINARY=confgen_sprig
+  - <<: *image-def-sprig
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Tag }}-sprig-armv7
+    goarch: arm
+    goarm: '7'
+    build_flag_templates:
+      - --platform=linux/arm64/v8
+      - --build-arg=BINARY=confgen_sprig
+
+docker_manifests:
+  - &manifest-def
+    name_template: fopina/{{.ProjectName}}:{{ .Tag }}
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Tag }}-armv7
+      - fopina/{{.ProjectName}}:{{ .Tag }}-arm64
+      - fopina/{{.ProjectName}}:{{ .Tag }}-amd64
+  - <<: *manifest-def
+    name_template: fopina/{{.ProjectName}}:latest
+  - &manifest-def-sprig
+    name_template: fopina/{{.ProjectName}}:{{ .Tag }}-sprig
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Tag }}-sprig-armv7
+      - fopina/{{.ProjectName}}:{{ .Tag }}-sprig-arm64
+      - fopina/{{.ProjectName}}:{{ .Tag }}-sprig-amd64
+  - <<: *manifest-def-sprig
+    name_template: fopina/{{.ProjectName}}:sprig
