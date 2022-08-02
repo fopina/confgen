@@ -51,4 +51,19 @@ Check its [documentation](http://masterminds.github.io/sprig/) for full list.
   docker run -e MY_CONFIG=wtv ...
   ```
 
-Check [examples](examples) for actual usage with nginx paired with `envsubst`. And check [Go template](https://golang.org/pkg/text/template/) documentation for full list of logical controls.
+## Docs
+
+Check [examples](examples) for actual usage with nginx paired with `envsubst`.  
+And check [Go template](https://golang.org/pkg/text/template/) documentation for full list of logical controls.
+
+Check [sprig documentation](http://masterminds.github.io/sprig/) for its templating functions.
+
+Find below the ones implemented in this code (without sprig, the lite binary):
+
+### env
+
+The `env` function reads an environment variable:
+
+```
+env "HOME"
+```
