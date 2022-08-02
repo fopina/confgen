@@ -1,6 +1,3 @@
-before:
-  hooks:
-    - go mod tidy
 builds:
 - &config_build
   id: confgen
@@ -21,6 +18,9 @@ builds:
   binary: confgen_sprig
   flags:
     - -tags=sprig
+  ldflags:
+    # extend default flags to add "sprig" to version
+    - -s -w -X main.version={{.Version}}-sprig -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.builtBy=goreleaser
 archives:
   - format: binary
     name_template: "{{ .Binary }}_{{ .Os }}_{{ .Arch }}"
@@ -32,3 +32,72 @@ changelog:
     exclude:
     - '^docs:'
     - '^test:'
+
+dockers:
+  - &image-def
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Version }}-amd64
+    use: buildx
+    ids:
+      - confgen
+    goos: linux
+    goarch: amd64
+    build_flag_templates:
+      - --platform=linux/amd64
+  - <<: *image-def
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Version }}-arm64
+    goarch: arm64
+    build_flag_templates:
+      - --platform=linux/arm64/v8
+  - <<: *image-def
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Version }}-armv7
+    goarch: arm
+    goarm: '7'
+    build_flag_templates:
+      - --platform=linux/arm64/v8
+
+  - &image-def-sprig
+    <<: *image-def
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Version }}-sprig-amd64
+    ids:
+      - confgen_sprig
+    goarch: amd64
+    build_flag_templates:
+      - --platform=linux/amd64
+      - --build-arg=BINARY=confgen_sprig
+  - <<: *image-def-sprig
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Version }}-sprig-arm64
+    goarch: arm64
+    build_flag_templates:
+      - --platform=linux/arm64/v8
+      - --build-arg=BINARY=confgen_sprig
+  - <<: *image-def-sprig
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Version }}-sprig-armv7
+    goarch: arm
+    goarm: '7'
+    build_flag_templates:
+      - --platform=linux/arm64/v8
+      - --build-arg=BINARY=confgen_sprig
+
+docker_manifests:
+  - &manifest-def
+    name_template: fopina/{{.ProjectName}}:{{ .Version }}
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Version }}-armv7
+      - fopina/{{.ProjectName}}:{{ .Version }}-arm64
+      - fopina/{{.ProjectName}}:{{ .Version }}-amd64
+  - <<: *manifest-def
+    name_template: fopina/{{.ProjectName}}:latest
+  - &manifest-def-sprig
+    name_template: fopina/{{.ProjectName}}:{{ .Version }}-sprig
+    image_templates:
+      - fopina/{{.ProjectName}}:{{ .Version }}-sprig-armv7
+      - fopina/{{.ProjectName}}:{{ .Version }}-sprig-arm64
+      - fopina/{{.ProjectName}}:{{ .Version }}-sprig-amd64
+  - <<: *manifest-def-sprig
+    name_template: fopina/{{.ProjectName}}:sprig
