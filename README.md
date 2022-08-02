@@ -3,7 +3,7 @@ Generate configuration files from Go templates
 
 As the (internet) world is all going serverless and [12-factor](https://12factor.net/) for scalability and resilience and such, `envsubst` became quite popular to "12-factor" some apps that only support configuration through files.
 
-Isse with `envsubst` is that it only does... env substitutions, nothing else. No logic control to allow for more complex templating (to eventually simplify/minify the required env vars).
+Issue with `envsubst` is that it only does... env substitutions, nothing else. No logic control to allow for more complex templating (to eventually simplify/minify the required env vars).
 
 An easy (and probably popular) option is to use [Jinja2](https://palletsprojects.com/p/jinja/) templates.  
 (python) Developers already know it from Django/Flask, devops know it from ansible.
@@ -16,7 +16,8 @@ Instead of 50M footprint, it's 2M.
 
 `confgen` simply injects the `env` function into the templates mapped to Go `os.Getenv`.
 
-If you need more functions in your templates and you don't mind having twice the footprint (a bit over 4M instad of 2M), you have the `confgen_sprig` builds which uses [sprig](http://masterminds.github.io/sprig/) funcmap instead, exposing not only the same `env` function but a lot more. Check its [documentation](http://masterminds.github.io/sprig/) for full list.
+If you need more functions in your templates and you don't mind having twice the footprint (a bit over 4M instad of 2M), you have the `confgen_sprig` builds which uses [sprig](http://masterminds.github.io/sprig/) funcmap instead, exposing not only the same `env` function but a lot more.  
+Check its [documentation](http://masterminds.github.io/sprig/) for full list.
 
 ## Usage
 
