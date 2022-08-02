@@ -3,9 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 	"text/template"
+
 	"github.com/fopina/confgen/funcmap"
 )
 
@@ -32,7 +34,18 @@ func main() {
 		os.Exit(1)
 	}
 
-	t, err := template.New(path.Base(flag.Arg(0))).Funcs(funcmap.FuncMap()).ParseFiles(flag.Arg(0))
+	var t *template.Template
+	var err error
+
+	if flag.Arg(0) == "-" {
+		bytes, err := ioutil.ReadAll(os.Stdin)
+		if err == nil {
+			t, err = template.New(path.Base(flag.Arg(0))).Funcs(funcmap.FuncMap()).Parse(string(bytes))
+		}
+	} else {
+		t, err = template.New(path.Base(flag.Arg(0))).Funcs(funcmap.FuncMap()).ParseFiles(flag.Arg(0))
+	}
+
 	if err != nil {
 		panic(err)
 	}
