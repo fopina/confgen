@@ -1,10 +1,11 @@
+//go:build sprig
 // +build sprig
 
 package funcmap
 
 import (
+	"github.com/Masterminds/sprig/v3"
 	"text/template"
-	"github.com/Masterminds/sprig"
 )
 
 func FuncMap() template.FuncMap {
