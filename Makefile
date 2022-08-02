@@ -4,25 +4,32 @@ VERSION ?= DEV
 
 all: clean build
 
-test:
-	@go test ./...
+test-lite:
+	@go test -cover ./...
+
+test-sprig:
+	@go test -tags sprig -cover ./...
+
+test: test-lite test-sprig
 
 clean:
 	@go clean
-	@rm $(OUTPUT_FILE) -f
+	@rm -f $(OUTPUT_FILE) $(OUTPUT_FILE)-sprig
 
-build:
+build-lite:
 	@mkdir -p dist
 	go build -ldflags "-w -s -X main.version=${VERSION}" \
 	         -o $(OUTPUT_FILE) \
 	         main.go
 
-buildsprig:
+build-sprig:
 	@mkdir -p dist
 	go build -ldflags "-w -s -X main.version=${VERSION}" \
 			 -tags sprig \
-	         -o $(OUTPUT_FILE) \
+	         -o $(OUTPUT_FILE)-sprig \
 	         main.go
+
+build: build-lite build-sprig
 
 release:
 	@VERSION=$(VERSION) docker run --rm --privileged \
