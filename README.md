@@ -1,4 +1,6 @@
 # confgen
+[![codecov](https://codecov.io/gh/fopina/confgen/branch/main/graph/badge.svg?token=RJR0LTTPJH)](https://codecov.io/gh/fopina/confgen)
+
 Generate configuration files from Go templates
 
 As the (internet) world is all going serverless and [12-factor](https://12factor.net/) for scalability and resilience and such, `envsubst` became quite popular to "12-factor" some apps that only support configuration through files.
