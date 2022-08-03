@@ -18,8 +18,8 @@ jobs:
         run: make cover
       - uses: codecov/codecov-action@v3
         with:
-          files: ./combo.out 
-          flags: unittests # optional
+          files: ./combo.out
+          flags: unittests
           fail_ci_if_error: true
           verbose: true
 
