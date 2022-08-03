@@ -67,3 +67,13 @@ The `env` function reads an environment variable:
 ```
 env "HOME"
 ```
+
+### envFile
+
+The `envFile` is similar to `env` but falls back to reading the file content of the same variable name with `_FILE` suffix. Useful for things like `docker secrets`
+
+```
+envFile "MYENV"
+```
+
+will read `MYENV` from environment and return that value if exists. If it does not, it will read `MYENV_FILE` and it that does exist it will return the **contents** of the file in that variable.
