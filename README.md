@@ -77,3 +77,13 @@ envFile "MYENV"
 ```
 
 will read `MYENV` from environment and return that value if exists. If it does not, it will read `MYENV_FILE` and it that does exist it will return the **contents** of the file in that variable.
+
+### trim
+
+The `trim` function removes space from either side of a string:
+
+```
+trim "   hello    "
+```
+
+The above produces `hello`

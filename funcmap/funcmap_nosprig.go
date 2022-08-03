@@ -5,11 +5,13 @@ package funcmap
 
 import (
 	"os"
+	"strings"
 	"text/template"
 )
 
 func FuncMap() template.FuncMap {
 	return template.FuncMap{
-		"env": os.Getenv,
+		"env":  os.Getenv,
+		"trim": strings.TrimSpace,
 	}
 }
