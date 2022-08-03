@@ -8,17 +8,12 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
-	"text/template"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func newTemplate() *template.Template {
-	return template.New("test").Funcs(CommonFuncMap()).Funcs(FuncMap())
-}
-
 func TestEnvNotSet(t *testing.T) {
-	template, err := newTemplate().Parse(`Hello {{ env "UNKNOWN" }}`)
+	template, err := NewTemplateWithAllFuncMaps("test").Parse(`Hello {{ env "UNKNOWN" }}`)
 	assert.Nil(t, err)
 	var buf bytes.Buffer
 	err = template.Execute(&buf, nil)
@@ -28,7 +23,7 @@ func TestEnvNotSet(t *testing.T) {
 
 func TestEnv(t *testing.T) {
 	os.Setenv("UNKNOWN", "World")
-	template, err := newTemplate().Parse(`Hello {{ env "UNKNOWN" }}`)
+	template, err := NewTemplateWithAllFuncMaps("test").Parse(`Hello {{ env "UNKNOWN" }}`)
 	assert.Nil(t, err)
 	var buf bytes.Buffer
 	err = template.Execute(&buf, nil)
@@ -37,7 +32,7 @@ func TestEnv(t *testing.T) {
 }
 
 func TestUpper(t *testing.T) {
-	template, err := newTemplate().Parse(`Hello {{ upper "Gopher" }}`)
+	template, err := NewTemplateWithAllFuncMaps("test").Parse(`Hello {{ upper "Gopher" }}`)
 	assert.Nil(t, err)
 	var buf bytes.Buffer
 	err = template.Execute(&buf, nil)
@@ -53,7 +48,7 @@ func TestEnvFile(t *testing.T) {
 	os.WriteFile(file.Name(), []byte("There"), 0644)
 	os.Setenv("UNKNOWN", "")
 	os.Setenv("UNKNOWN_FILE", file.Name())
-	template, err := newTemplate().Parse(`Hello {{ envFile "UNKNOWN" }}`)
+	template, err := NewTemplateWithAllFuncMaps("test").Parse(`Hello {{ envFile "UNKNOWN" }}`)
 	assert.Nil(t, err)
 	var buf bytes.Buffer
 	err = template.Execute(&buf, nil)

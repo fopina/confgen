@@ -5,12 +5,18 @@ VERSION ?= DEV
 all: clean build
 
 test-lite:
-	@go test -cover ./...
+	@go test ./... -coverprofile lite.out
 
 test-sprig:
-	@go test -tags sprig -cover ./...
+	@go test -tags sprig ./... -coverprofile sprig.out
 
 test: test-lite test-sprig
+
+cover: test
+cover:
+	@cp lite.out combo.out
+	@cat sprig.out | grep -v ^"mode: set" >> combo.out
+	@go tool cover -func=combo.out
 
 clean:
 	@go clean

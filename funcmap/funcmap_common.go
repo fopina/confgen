@@ -29,3 +29,7 @@ func CommonFuncMap() template.FuncMap {
 		"envFile": GetenvFile,
 	}
 }
+
+func NewTemplateWithAllFuncMaps(name string) *template.Template {
+	return template.New(name).Funcs(CommonFuncMap()).Funcs(FuncMap())
+}
