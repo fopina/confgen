@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"text/template"
+
 	"github.com/fopina/confgen/funcmap"
 )
 
