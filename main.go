@@ -40,10 +40,10 @@ func main() {
 	if flag.Arg(0) == "-" {
 		bytes, err := ioutil.ReadAll(os.Stdin)
 		if err == nil {
-			t, err = funcmap.NewTemplateWithAllFuncMaps(path.Base(flag.Arg(0))).Parse(string(bytes))
+			t, err = funcmap.NewTemplateWithAllFuncMaps("stdin").Parse(string(bytes))
 		}
 	} else {
-		t, err = funcmap.NewTemplateWithAllFuncMaps("stdin").ParseFiles(flag.Arg(0))
+		t, err = funcmap.NewTemplateWithAllFuncMaps(path.Base(flag.Arg(0))).ParseFiles(flag.Arg(0))
 	}
 
 	if err != nil {
