@@ -56,7 +56,7 @@ dockers:
     goarch: arm
     goarm: '7'
     build_flag_templates:
-      - --platform=linux/arm64/v8
+      - --platform=linux/arm/v7
 
   - &image-def-sprig
     <<: *image-def
@@ -81,7 +81,7 @@ dockers:
     goarch: arm
     goarm: '7'
     build_flag_templates:
-      - --platform=linux/arm64/v8
+      - --platform=linux/arm/v7
       - --build-arg=BINARY=confgen_sprig
 
 docker_manifests:
