@@ -9,5 +9,5 @@ require (
 	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/stretchr/testify v1.5.1
-	golang.org/x/crypto v0.17.0 // indirect
+	golang.org/x/crypto v0.31.0 // indirect
 )
